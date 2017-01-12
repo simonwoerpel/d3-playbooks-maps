@@ -1,5 +1,4 @@
 import '../polyfills/is_array.js'
-import {schemeYlOrRd} from 'd3-scale-chromatic'
 
 /** compute getColor func
  *
@@ -11,32 +10,26 @@ import {schemeYlOrRd} from 'd3-scale-chromatic'
 **/
 export default ({
   color,
-  groupCol,
-  geoData
+  groupCol
 }) => {
 
-const domain = d3.extent(geoData.features, d => d.properties.destatis.population_density)
-return d3.scaleQuantile()
-    .domain(domain)
-    .range(schemeYlOrRd[9])
+  if (typeof color === 'string') return () => color
 
-//   if (typeof color === 'string') return () => color
+  else if (Array.isArray(color)) {
+    const _getColor = d3.scaleOrdinal(color)
+    return d => _getColor(d[groupCol] || d)
+  }
 
-//   else if (Array.isArray(color)) {
-//     const _getColor = d3.scaleOrdinal(color)
-//     return d => _getColor(d[groupCol] || d)
-//   }
+  else if (color.constructor === Object) {
+    if (!groupCol) {
+      throw new Error('need groupCol for this color func')
+    }
+    return d => color[d[groupCol]]
+  }
 
-//   else if (color.constructor === Object) {
-//     if (!groupCol) {
-//       throw new Error('need groupCol for this color func')
-//     }
-//     return d => color[d[groupCol]]
-//   }
+  else if (typeof color === 'function') return color
 
-//   else if (typeof color === 'function') return color
-
-//   else {
-//     throw new Error('can\'t compute color function from '+color)
-//   }
+  else {
+    throw new Error('can\'t compute color function from '+color)
+  }
 }

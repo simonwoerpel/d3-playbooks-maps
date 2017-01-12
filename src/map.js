@@ -18,7 +18,7 @@ export default ({opts, template, plays}) => {
     M[name] = opts[name]
     map[name] = (...val) => {
       if (val.length === 1) {
-        M[name] = val[0]
+        M.ready.then(() => M[name] = val[0])
         return map
       } else return M[name]
     }
@@ -26,18 +26,19 @@ export default ({opts, template, plays}) => {
 
   setupPlaybook(template, M)
 
-  // this should be invoked from "outside"
-  map.build = () => {
-    M.init()
-    M.geoData.then(d => {
-      M.geoData = d
-      M.render()
-    })
-  }
+  M.init()
+
+  // load async data
+  M.rawData.then(d => M.rawData = d)
+  M.geoData.then(d => M.geoData = d)
 
   // public methods
-  // FIXME / TODO handle Promise
-  map.render = M.render
+  d3.playbooks.PUBLIC_METHODS.map(func => {
+    map[func] = opts => {
+      M.ready.then(() => M[func](opts))
+      return map
+    }
+  })
 
   return map
 }

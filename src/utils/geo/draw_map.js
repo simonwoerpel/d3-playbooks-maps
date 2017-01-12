@@ -1,18 +1,17 @@
 export default ({
   g,
-  geoData,
-  getFeatures,
+  data,
   path,
-  getColor
+  getColor,
+  nullColor,
+  yCol
 }) => {
-
   return g
       .attr('class', 'map')
     .selectAll('path')
-      .data(getFeatures(geoData))
+      .data(data)
     .enter().append('path')
       .attr('class', 'map__item')
       .attr('d', path)
-      .attr('fill', d => getColor(d.properties.destatis.population_density))
-
+      .attr('fill', d => getColor(d[yCol]) || nullColor)
 }

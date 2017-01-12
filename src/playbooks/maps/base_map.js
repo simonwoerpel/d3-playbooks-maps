@@ -1,5 +1,7 @@
-// import getData from '../../utils/data/loader.js'
-// import prepareData from '../../utils/data/prepare.js'
+import getData from '../../utils/data/loader.js'
+import prepareData from '../../utils/data/prepare.js'
+import mergeData from '../../utils/data/merge_data.js'
+import getReady from '../../utils/init/get_ready.js'
 import getChartElement from '../../utils/setup/get_chart_element.js'
 import fixDimensions from '../../utils/setup/fix_dimensions.js'
 import updateDimensions from '../../utils/responsive/update_dimensions.js'
@@ -28,10 +30,11 @@ import getGeoData from '../../utils/geo/get_geo_data.js'
 
 export default {
   plays: {
-    // getData,
-    // prepareData,
+    getData,
+    prepareData,
     getGeoData,
-    // getMultiData: () => {},  // FIXME
+    mergeData,
+    getReady,
     getChartElement,
     fixDimensions,
     updateDimensions,
@@ -75,10 +78,10 @@ export default {
     // showYAxis: true,
     // showXLabel: true,
     // showYLabel: true,
-    xCol: 'value',
-    // yCol: 'y',
-    xTransform: d => Number(d),
-    // yTransform: d => Number(d),
+    xCol: 'id',
+    yCol: 'value',
+    xTransform: d => d,
+    yTransform: d => Number(d),
     // xScaleNice: true,
     // yScaleNice: true,
     responsive: true,
@@ -86,6 +89,7 @@ export default {
     // xTicks: 10,
     // yTicks: 10,
     color: d3.schemeCategory10,
+    nullColor: 'gray',
     filter: false,
     drawExtra: c => {},
     breakpoints: {
@@ -95,9 +99,13 @@ export default {
     },
 
     // geo specific
-    topojson: false,
+    isTopojson: false,
     projection: d3.geoMercator(),
     path: d3.geoPath(),
-    getFeatures: d => d.features
+    topojsonLayerName: 'layer',
+    topojsonObjectsAccessor: 'objects',
+    getFeatures: d => d.geoData.features,
+    getValue: f => f.properties.value,
+    getId: f => f.properties.id
   }
 }

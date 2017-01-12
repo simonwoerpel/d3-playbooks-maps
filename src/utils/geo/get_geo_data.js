@@ -1,18 +1,17 @@
 import Promise from 'promise-polyfill'
-// import transformData from './transform_data.js'
-
-const topo = topojson
 
 export default ({
-  topojson,
+  isTopojson,
+  topojsonLayerName,
+  topojsonObjectsAccessor,
   geoDataUrl
 }) => {
   return new Promise((resolve, reject) => {
     // d3.json(geoDataUrl, (err, d) => err ? reject(err) : resolve(d))
     d3.json(geoDataUrl, (err, d) => {
       if (err) reject(err)
-      if (topojson) {
-        resolve(topo.feature(d, d.objects.germany_munis))
+      if (isTopojson) {
+        resolve(topojson.feature(d, d[topojsonObjectsAccessor][topojsonLayerName]))
       } else {
         resolve(d)
       }
@@ -20,43 +19,3 @@ export default ({
   })
 }
 
-// function _loadCsv(dataUrl) {
-//   return new Promise((resolve, reject) => {
-//     d3.csv(dataUrl, (err, d) => {err ? reject(err) : resolve(d)})
-//   })
-// }
-
-
-// export default ({
-//   data,
-//   dataUrl,
-//   xCol,
-//   yCol,
-//   yCols,
-//   filter,
-//   timeFormat
-// }) => {
-//   return new Promise((resolve) => {
-//     // also return promise if data is already there
-//     const _getData = data ?
-//       new Promise(r => r(transformData({data, xCol, yCol}))) :
-//       _loadCsv(dataUrl)
-//     _getData.then((rows) => {
-//       if (filter) rows = rows.filter(filter)
-//       if (timeFormat) {
-//         // FIXME
-//         const parseTime = d3.timeParse(timeFormat)
-//         rows.forEach(r => r[xCol] = parseTime(r[xCol]))
-//       }
-
-//       // ensure data is present
-//       // FIXME better implementation for both
-//       // (or later more?) types
-//       if (xCol && yCols) {
-//         resolve(rows.filter(r => (r[xCol] && yCols.map(c => r[c]).every(e => !!e))))
-//       } else {
-//         resolve(rows.filter(r => (r[xCol] && r[yCol])))
-//       }
-//     })
-//   })
-// }
