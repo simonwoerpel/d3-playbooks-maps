@@ -27,7 +27,7 @@ export default () => {
       geoDataUrl: './data/europe.topo.json',
       responsiveSvg: true,
       isTopojson: true,
-      topojsonLayerName: 'europe',
+      topojsonLayerName: 'europe_clipped',
       getId: f => f.properties.iso_a2,
     }).render().infobox({
       template: `
@@ -39,6 +39,8 @@ export default () => {
         <p class="-eudata">EU: 12 %</p>
         <p class="-annotation">ECDC Surveillance report 2014, except Poland (2013)</p>
       `
+    }).selector({
+      getLabel: f => f.name
     })
   }
 
