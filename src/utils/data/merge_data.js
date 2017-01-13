@@ -7,6 +7,9 @@
 // geoData:
 //    getId = function to get identification value from feature (acts as `x`)
 //    getValue = function to get numerical value from feature (acts as `y`)
+//
+// in general, data will be assigned to geoJson-features directly like `f.name`
+// (instead of `f.properties.name`
 
 export default ({
   csvData,
@@ -14,32 +17,38 @@ export default ({
   yCol,
   features,
   getValue,
-  getId
+  getId,
+  getProps
 }) => {
-  if (csvData) {
-    const findData = id => csvData.find(d => d[xCol] === id)
-    return features.map(f => {
-      const id = getId(f)
-      const data = findData(id) || {}
-      f[xCol] = id
-      f[yCol] = data[yCol]
 
-      // copy over from geojson feature properties
-      Object.keys(f.properties).map(k => {
-        f[k] = f.properties[k]
-      })
-
-      // add remaining data from csv
-      Object.keys(data).filter(k => k !== xCol).map(k => {
-        f[k] = data[k]
-      })
-      return f
+  const setFeatData = feat => {
+    const props = getProps(feat)
+    Object.keys(props).map(k => {
+      feat[k] = props[k]
+      const value = getValue(feat)
+      if (value) feat[yCol] = value
     })
-  } else {
-    return features.map(f => {
-      f[xCol] = getId(f)
-      f[yCol] = getValue(f)
-      return f
-    })
+    return feat
   }
+
+  features.map(f => setFeatData(f))
+
+  // get additional data from csv, existing keys will be overwritten
+  if (csvData) {
+    // get csvData mapping for efficient matching
+    const cData = {}
+    csvData.map(d => cData[d[xCol]] = d)
+
+    const setFeatCsvData = feat => {
+      const featId = getId(feat)
+      const data = cData[featId]
+      if (data) Object.keys(data).map(k => feat[k] = data[k])
+      return feat
+    }
+
+    features.map(f => setFeatCsvData(f))
+
+  }
+
+  return features
 }

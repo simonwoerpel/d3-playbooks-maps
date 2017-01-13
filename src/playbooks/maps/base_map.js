@@ -105,7 +105,8 @@ export default {
     topojsonLayerName: 'layer',
     topojsonObjectsAccessor: 'objects',
     getFeatures: d => d.geoData.features,
-    getValue: f => f.properties.value,
-    getId: f => f.properties.id
+    getValue: f => Number(f.properties.value),
+    getId: f => f.properties.id,
+    getProps: f => f.properties
   }
 }
