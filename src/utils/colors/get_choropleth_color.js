@@ -1,9 +1,8 @@
-
 /** compute getColor func special for choropleths
  *
  * @param color -
- *  an Array, this will compute a d3 scaleQuantile
  *  a callable - will just return as is
+ *  an Array, this will compute a d3 scaleQuantile
 **/
 export default ({
   color,
