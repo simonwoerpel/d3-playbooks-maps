@@ -119,6 +119,33 @@ g.selectAll(".label").data(M.data).enter()  // see `drawExtra` below
 
 One handy setting during initialization (or other defaults, see below) is the property `drawExtra` to (obviously) draw some extra stuff. It gets the [complete (internal) map object](https://github.com/simonwoerpel/d3-playbooks-maps/blob/master/src/map.js#L8) as argument, as a convenience we could name it `M`.
 
+**Example: Add a simple legend**
+
+This simple legend is used in [these examples](https://simonwoerpel.github.io/d3pb-multiple-maps-example/).
+
+Another way to render a legend is to use the [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components)-extension.
+
+```javascript
+d3.playbooks.choroplethMap({
+    // ...
+    drawExtra: M => {
+        M.element.append('div')
+            .attr('class', 'superbugs-map__legend --delete-on-update')
+            .text('Resistance in %')
+        .append('ul').selectAll('li')
+        // `getColor` for choropleth maps is `d3.scaleQuantile` per default,
+        // so we can use that for rendering legend items:
+        .data(M.getColor.quantiles()).enter()
+        .append('li')
+            .attr('class', 'superbugs-map__legend-item')
+            .text(d => Math.round(d))
+            .append('span')
+            .style('background-color', d => M.getMolor(d))
+    }
+})
+```
+
+
 **Example: Add some labels**
 
 ```javascript
