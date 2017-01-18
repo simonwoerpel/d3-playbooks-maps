@@ -32,13 +32,13 @@ export default ({
         }
 
         // ensure data is present
-        // FIXME better implementation for both
-        // (or later more?) types
-        if (xCol && yCols) {
-          resolve(rows.filter(r => (r[xCol] && yCols.map(c => r[c]).every(e => !!e))))
-        } else {
-          resolve(rows.filter(r => (r[xCol] && r[yCol])))
-        }
+        // FIXME overthink for maps
+        // if (xCol && yCols) {
+        //   resolve(rows.filter(r => (r[xCol] && yCols.map(c => r[c]).every(e => !!e))))
+        // } else {
+        //   resolve(rows.filter(r => (r[xCol] && r[yCol])))
+        // }
+        resolve(rows)
       })
     })
   } else {
