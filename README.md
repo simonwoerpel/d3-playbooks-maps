@@ -106,7 +106,7 @@ d3.playbooks.choroplethMap({
 })
 ```
 
-Every column and every key in `feature.properties` will assigned to the data, so you can use it later like:
+Every csv column and every key in `feature.properties` will assigned to the data, so you can use it later like:
 
 ```javascript
 g.selectAll(".label").data(M.data).enter()  // see `drawExtra` below
