@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>d3-playbooks-maps</title>
+  <style type="text/css" media="screen">
+    .d3-playbooks .map__item {
+      fill-opacity: .7;
+      stroke: white;
+    }
+
+    .d3-playbooks .map__item:hover, .d3-playbooks .map__item.-hilight {
+      fill-opacity: 1;
+      stroke-width: 2px;
+    }
+
+    .d3-playbooks__infobox {
+      position: absolute;
+      background-color: white;
+      width: 300px;
+      top: 20px;
+      left: 0;
+      border: 1px solid black;
+    }
+
+    .d3-playbooks__selector {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .d3-playbooks svg {
+      background-color: #fff;
+    }
+
+
+    .superbugs-map-wrapper {
+      width: 800px;
+      position: relative;
+      display: block;
+      font-family: Georgia,Times,Times New Roman,serif;
+      color: #424948
+    }
+    .superbugs-map-wrapper p {
+      font-size: 14px
+    }
+
+    #superbugs-map__legend {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 10px;
+      background-color: #fff;
+      opacity: .8;
+      color: #000
+    }
+    @media (min-width: 992px) {
+      #superbugs-map__legend {
+        top: auto;
+        bottom: 10px
+      }
+
+    }
+    #superbugs-map__legend ul {
+      list-style: none;
+      margin: 0;
+      padding: 0
+    }
+    #superbugs-map__legend ul li {
+      display: inline;
+      padding: 3px;
+      font-feature-settings: 'tnum';
+      font-family: sans-serif;
+      font-size: 10px
+    }
+    #superbugs-map svg {
+      background-color: #cce2df;
+    }
+    #superbugs-map svg path {
+      opacity: .8;
+      stroke: #424948;
+      stroke-width: .5
+    }
+    #superbugs-map svg path.-hilight, #superbugs-map svg path:hover {
+      z-index: 100;
+      stroke-width: 1;
+      stroke: #fff;
+      opacity: 1
+    }
+    #superbugs-map__info-wrapper {
+      display: block;
+      position: relative;
+      top: -30px;
+      border: 1px solid #dadada;
+      background: #fff;
+      padding: 10px;
+      margin: 0 10px
+    }
+    @media (min-width: 992px) {
+      #superbugs-map__info-wrapper {
+        position: absolute;
+        top: 22px;
+        right: 22px;
+        width: 30%;
+        margin: 0;
+        background-color: #fff
+      }
+
+    }
+    #superbugs-map__infobox p {
+      color: #555
+    }
+    #superbugs-map__infobox p.infobox__annotation {
+      font-size: 12px;
+      font-style: italic
+    }
+    #superbugs-map__infobox p.infobox__data {
+      font-size: 20px
+    }
+    #superbugs-map__infobox.-hidden {
+      visibility: hidden
+    }
+    #superbugs-map__selector select {
+      width: 100%;
+      background: #fff;
+      font-size: 20px
+    }
+    #superbugs-map__selector select option {
+      padding-left: 0;
+      margin-left: 0
+    }
+
+
+  </style>
+</head>
+<body>
+  <h1>d3-playbooks-maps</h1>
+  <h2>simple map</h2>
+  <section id="simple-map"></section>
+  <h2>integration with d3-playbooks-riot-components</h2>
+  <section class="superbugs-map-wrapper">
+    <section id="superbugs-map"></section>
+    <section id="superbugs-map__legend"></section>
+    <section id="superbugs-map__info-wrapper">
+      <section id="superbugs-map__selector"></section>
+      <section id="superbugs-map__infobox"></section>
+    </section>
+  </section>
+
+
+  <script src="./lib/d3.v4.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="./lib/topojson.v2.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="d3-playbooks.maps.min.js"></script></body>
+</html>
