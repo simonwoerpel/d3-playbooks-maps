@@ -11,7 +11,8 @@ import initSvg from '../../utils/setup/init_svg.js'
 import initG from '../../utils/setup/init_g.js'
 import updateSvg from '../../utils/responsive/update_svg.js'
 import resetG from '../../utils/draw/reset_g.js'
-// import getExtentDomain from '../../utils/domains/get_extent_domain.js'
+import getExtentDomain from '../../utils/domains/get_extent_domain.js'
+import getOrdinalDomain from '../../utils/domains/get_ordinal_domain.js'
 // import getScale from '../../utils/scales/get_scale.js'
 // import getAxis from '../../utils/axes/get_axis.js'
 // import renderAxis from '../../utils/axes/render_axis.js'
@@ -41,8 +42,8 @@ export default {
     setUpResponsiveness,
     initSvg,
     initG,
-    // getXDomain: getExtentDomain.bind({col: 'xCol'}),
-    // getYDomain: getExtentDomain.bind({col: 'yCol'}),
+    getXDomain: getOrdinalDomain.bind({col: 'xCol'}),
+    getYDomain: getExtentDomain.bind({col: 'yCol'}),
     // getXScale: getScale.bind({axis: 'x'}),
     // getYScale: getScale.bind({axis: 'y'}),
     // getXAxis: getAxis.bind({kind: 'axisBottom', axis: 'x'}),
@@ -66,7 +67,7 @@ export default {
   },
   defaults: {
     width: 600,
-    height: 400,
+    height: 600,
     cssNamespace: 'd3-playbooks',
     margin: {
       top: 0,
@@ -88,7 +89,7 @@ export default {
     responsiveSvg: false,
     // xTicks: 10,
     // yTicks: 10,
-    color: d3.schemeCategory10,
+    color: d3.schemeCategory10.slice(3), // FIXME
     nullColor: 'gray',
     filter: false,
     drawExtra: c => {},

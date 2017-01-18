@@ -6,14 +6,12 @@
 **/
 export default ({
   color,
-  data,
-  yCol
+  yDomain
 }) => {
   if (typeof color === 'function') return color
   else {
-    const domain = d3.extent(data, d => d[yCol])
     return d3.scaleQuantile()
-      .domain(domain)
+      .domain(yDomain)
       .range(color)
   }
 }

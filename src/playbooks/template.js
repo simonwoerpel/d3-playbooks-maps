@@ -20,6 +20,8 @@ export default _({
     data: 'mergeData',
   }),
   setup: _({
+    xDomain: 'getXDomain',
+    yDomain: 'getYDomain',
     getColor: 'getColorFunc',
   }),
   prepareDraw: _({

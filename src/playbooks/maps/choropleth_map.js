@@ -1,6 +1,5 @@
 import getChoroplethColor from '../../utils/colors/get_choropleth_color.js'
 import getLegendItems from '../../utils/legend/get_legend_items.js'
-import {schemeYlOrRd} from 'd3-scale-chromatic'
 
 export default {
   plays: {
@@ -8,6 +7,6 @@ export default {
     getLegendItems
   },
   defaults: {
-    color: schemeYlOrRd[9]
+    color: ['#ffffcc','#ffeda0','#fed976','#feb24c','#fd8d3c','#fc4e2a','#e31a1c','#bd0026','#800026'], // colorbrewer2.org
   }
 }
