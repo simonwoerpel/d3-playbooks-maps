@@ -28,7 +28,7 @@ required:
 optional:
 - [`topojson`](https://github.com/topojson/topojson) to render layers encoded on topojson.
 - [`d3-scale-chromatic`](https://github.com/d3/d3-scale-chromatic) to use choropleth colorschemes.
-- [`d3-playbooks-riot-components`]() to add interactive components.
+- [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components) to add interactive components.
 
 ```html
 <script src="https://d3js.org/topojson.v2.min.js"></script>
@@ -232,6 +232,114 @@ defaults: {
 }
 ```
 
+### playbook methods (aka "plays")
+
+These can also be overriden simply:
+
+```javascript
+d3.playbooks.choroplethMap({
+  getYExtent: () => [0, 100]
+})
+```
+
+These methods are defined in the [`./utils/`](https://github.com/simonwoerpel/d3-playbooks-maps/tree/master/src/utils) folder.
+
+```javascript
+plays: {
+    getData,
+    prepareData,
+    getGeoData,
+    mergeData,
+    getReady,
+    getChartElement,
+    fixDimensions,
+    updateDimensions,
+    setUpResponsiveness,
+    initSvg,
+    initG,
+    getXDomain: getOrdinalDomain.bind({col: 'xCol'}),
+    getYDomain: getExtentDomain.bind({col: 'yCol'}),
+    getColorFunc,
+    getBreakpoints,
+    updateBreakpoints,
+    updateBreakpointClasses,
+    updateSvg,
+    resetG,
+
+    // geo specific
+    getProjection,
+    getPath,
+    drawData
+}
+```
+
+All these methods set some properties to the internal chart object. Once set, these properties are of course available to other methods.
+
+Internally, to ensure the correct order of these *plays*, `OrderedMap` from [`ImmutableJS`](https://facebook.github.io/immutable-js/) is used.
+
+See which properties are set from which method at the [`playbook template`](https://github.com/simonwoerpel/d3-playbooks-maps/blob/master/src/playbooks/template.js)
+
+Properties starting with `_` here are not set because these methods don't necessarily return something.
+
+The arrays in `render`, `resize` and `update` group together some methods. So, if one calls `myMap.update()`, all methods from the `update`-section in this template will be run.
+
+Of course you can customize this stuff, in the main library (`d3-playbooks`) is a [simple example](https://github.com/simonwoerpel/d3-playbooks/blob/master/src/examples.js#L2) for that.
+
+```javascript
+init: {
+    rawData: 'getData',
+    geoData: 'getGeoData',
+    ready: 'getReady',
+    element: 'getChartElement',
+    _responsive: 'setUpResponsiveness',
+    _updateDimensions: 'updateDimensions',
+    breakpoints: 'getBreakpoints',
+    _updateBreakpoints: 'updateBreakpoints',
+    _updateBreakpointClasses: 'updateBreakpointClasses',
+    svg: 'initSvg',
+    g: 'initG'
+},
+setupData: {
+    csvData: 'prepareData',
+    features: 'getFeatures',
+    data: 'mergeData',
+},
+setup: {
+    xDomain: 'getXDomain',
+    yDomain: 'getYDomain',
+    getColor: 'getColorFunc',
+},
+prepareDraw: {
+    projection: 'getProjection',
+    path: 'getPath'
+},
+draw: {
+    drawedSelection: 'drawData',
+    extraDrawedSelections: 'drawExtra'
+},
+render: [
+    'setupData',
+    'setup',
+    'prepareDraw',
+    'draw'
+],
+resize: [
+    'updateBreakpoints',
+    'updateBreakpointClasses',
+    'updateSvg',
+    'resetG',
+    'prepareDraw',
+    'draw'
+],
+update: [
+    'setup',
+    'updateSvg',
+    'resetG',
+    'prepareDraw',
+    'draw'
+]
+```
+
 ### Defaults
 
 There are some global defaults for all chart types and some defaults for each specific one. Their can all be overriden for each chart type and of course each new chart instance during initialization.
@@ -305,7 +413,7 @@ var myMap = d3.playbooks.choroplethMap({...})
 myMap.color()       // return actual color
 myMap.color("red")  // set new color
 ```
-Also, `d3-playbooks-maps` offers public methods for each map instance like `render`, `resize`, `update` (and some more if used together with `d3-playbooks-riot-components`).
+Also, `d3-playbooks-maps` offers public methods for each map instance like `render`, `resize`, `update` (and some more if used together with [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components)).
 
 Therefore changing the `colorScheme` and re-render the map is as simple as:
 
@@ -363,7 +471,7 @@ The downside is, there are no conditionals or breakpoint logics like `M.is_small
 
 See `./dist` folder and `./src/examples.js`
 
-Scroll down for an example to render an interactive map with components from [`d3-playbooks-riot-components`]().
+Scroll down for an example to render an interactive map with components from [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components).
 
 A complete example how to render a map of the german state North-Rhine Westphalia and colorize the municipalities based on population density, which comes from an additonal csv file:
 
@@ -405,7 +513,7 @@ d3.playbooks.choroplethMap({
 
 ### Interactive map with components
 
-Add `legend`, `infobox` and `selector` from [`d3-playbooks-riot-components`]()
+Add `legend`, `infobox` and `selector` from [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components)
 
 [See this map in action](https://correctiv.org/en/investigations/superbugs/atlas/superbug-atlas-e-coli-fluoroquinol/)
 
