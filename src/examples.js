@@ -22,15 +22,17 @@ export default () => {
       dataUrl: './data/nrw_data.csv',
       geoDataUrl: './data/nrw_munis.geojson',
       responsiveSvg: true,
+      xCol: 'regionalschluessel',
+      yCol: 'bevoelkerungsdichte',
       getId: f => f.properties.RS.substring(1),
-      drawExtra: c => {
-        const labels = c.data.filter(d => d.value > 2000).map(d => {
-          const centroid = c.path.centroid(d)
-          d.x = centroid[0]
-          d.y = centroid[1]
+      drawExtra: M => {
+        const labels = M.data.filter(d => d[M.yCol] > 2000).map(d => {
+          const [x, y] = M.path.centroid(d)
+          d.x = x
+          d.y = y
           return d
         })
-        c.g.selectAll('.label')
+        M.g.selectAll('.label')
             .data(labels)
           .enter().append('text')
             .attr('transform', d => 'translate(' + [d.x, d.y] + ')')
@@ -38,8 +40,8 @@ export default () => {
             .attr('dx', '.5em')
             .style('fill', 'black')
             .style('font-size', '10px')
-            .text(d => d.properties.GEN)
-        c.g.selectAll('.point')
+            .text(d => d.name)
+        M.g.selectAll('.point')
             .data(labels)
           .enter().append('circle')
             .attr('r', 2)
