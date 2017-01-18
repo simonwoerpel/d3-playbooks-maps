@@ -8,16 +8,8 @@ import map from './map.js'
 import getPublics from './playbooks/get_publics.js'
 
 // init
-// // FIXME
-// if (!d3.playbooks) d3.playbooks = {}  // d3-playbooks-maps can be used standalone
-// d3.playbooks.MAPS_TEMPLATE = baseTemplate
-// d3.playbooks.MAPS = maps
-// if (!d3.playbooks.CHARTS) {
-//   // FIXME
-//   d3.playbooks.CHARTS = maps
-//   maps.baseChart = maps.baseMap
-//   d3.playbooks.TEMPLATE = baseTemplate
-// }
+// // FIXME: currently, `d3-playbooks-maps` is only standalone
+
 d3.playbooks = {}
 d3.playbooks.TEMPLATE = baseTemplate
 maps.baseChart = maps.baseMap
@@ -38,7 +30,7 @@ d3.playbooks.addMap = (name, {defaults, plays}) => {
 
   d3.playbooks[name] = opts => {
     // merge opts
-    opts = _(d3.playbooks.CHARTS.baseMap.defaults)  // base defaults
+    opts = _(d3.playbooks.CHARTS.baseChart.defaults)  // base defaults
       .mergeDeep(defaults)                     // map type defaults
       .mergeDeep(overrides.baseMap)          // global overrides
       .mergeDeep(overrides[name])              // map type overrides
