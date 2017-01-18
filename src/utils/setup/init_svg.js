@@ -18,6 +18,7 @@ export default ({
       .attr('viewBox', '0 0 ' + width + ' ' + height)
       //class to make it responsive
       .classed('svg-content-responsive', true)
+      .classed(cssNamespace + '__svg', true)
     element.classed('svg-container-responsive', true)
   } else {
     svg
