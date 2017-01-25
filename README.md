@@ -265,7 +265,7 @@ These can also be overriden simply:
 
 ```javascript
 d3.playbooks.choroplethMap({
-  getYExtent: () => [0, 100]
+  getYDomain: () => [0, 100]
 })
 ```
 
@@ -466,7 +466,7 @@ On resize, all `childNodes` of the main `g` svg element will be removed and redr
 
 If you add some elements to the main `M.element`, which is the wrapper around the svg stuff, you can give it a css class named `--delete-on-update` to have them deleted. Because `drawExtra` is executed on every `resize` and `update`, stuff outside the main `g` element not flagged with this css class will be redrawn (not replaced) over and over and therefore will look ugly.
 
-If `respnsive: true`, which is the default, there are some breakpoint helpers available. For example, to add an annotation only for middle- and large-sized screens, you could do it like:
+If `responsive: true`, which is the default, there are some breakpoint helpers available. For example, to add an annotation only for middle- and large-sized screens, you could do it like:
 
 ```javascript
 d3.playbooks.choroplethMap({
@@ -542,7 +542,7 @@ d3.playbooks.choroplethMap({
 
 Add `legend`, `infobox` and `selector` from [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components)
 
-[See this map in action](https://correctiv.org/en/investigations/superbugs/atlas/superbug-atlas-e-coli-fluoroquinol/)
+[See this map in action](https://simonwoerpel.github.io/d3pb-superbugs-example/)
 
 Be aware that without proper css for the components this would look ugly.
 
