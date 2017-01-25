@@ -66,6 +66,10 @@ export default {
     drawData
   },
   defaults: {
+    ready: false,
+    data: null,
+    geoData: null,
+    features: null,
     width: 600,
     height: 600,
     cssNamespace: 'd3-playbooks',
