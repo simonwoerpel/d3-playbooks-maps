@@ -33,7 +33,7 @@ optional:
 ```html
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="./d3-playbooks-components.min.js"></script>
+<script src="./d3-playbooks.riot-components.min.js"></script>
 ```
 
 after loading these dependencies, load `d3-playbooks-maps` (no cdn yet):
