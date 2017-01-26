@@ -1,7 +1,5 @@
-import {OrderedMap as _} from 'immutable'
-
-export default _({
-  init: _({
+export default {
+  init: {
     rawData: 'getData',
     geoData: 'getGeoData',
     ready: 'getReady',
@@ -13,25 +11,25 @@ export default _({
     _updateBreakpointClasses: 'updateBreakpointClasses',
     svg: 'initSvg',
     g: 'initG'
-  }),
-  setupData: _({
+  },
+  setupData: {
     csvData: 'prepareData',
     features: 'getFeatures',
     data: 'mergeData',
-  }),
-  setup: _({
+  },
+  setup: {
     xDomain: 'getXDomain',
     yDomain: 'getYDomain',
     getColor: 'getColorFunc',
-  }),
-  prepareDraw: _({
+  },
+  prepareDraw: {
     projection: 'getProjection',
     path: 'getPath'
-  }),
-  draw: _({
+  },
+  draw: {
     drawedSelection: 'drawData',
     extraDrawedSelections: 'drawExtra'
-  }),
+  },
   render: [
     'setupData',
     'setup',
@@ -53,4 +51,4 @@ export default _({
     'prepareDraw',
     'draw'
   ]
-})
+}

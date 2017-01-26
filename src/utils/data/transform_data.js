@@ -1,5 +1,3 @@
-import '../polyfills/is_array.js'
-
 /**
  * transform input data given on init via the `data` option
  * to array of mappings:

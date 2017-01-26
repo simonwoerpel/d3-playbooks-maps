@@ -49,7 +49,7 @@ export default () => {
             .attr('cx', d => d.x)
             .attr('cy', d => d.y)
       }
-    }).render()
+    }).render().selector({getLabel: f => f.name})
 
     d3.playbooks.choroplethMap({
       elementId: 'superbugs-map',

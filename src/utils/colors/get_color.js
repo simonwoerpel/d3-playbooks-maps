@@ -1,5 +1,3 @@
-import '../polyfills/is_array.js'
-
 /** compute getColor func
  *
  * @param color -

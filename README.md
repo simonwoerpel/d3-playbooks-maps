@@ -28,7 +28,7 @@ required:
 optional:
 - [`topojson`](https://github.com/topojson/topojson) to render layers encoded on topojson.
 - [`d3-scale-chromatic`](https://github.com/d3/d3-scale-chromatic) to use choropleth colorschemes.
-- [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components) to add interactive components.
+- [`d3-playbooks-riot-components`](https://github.com/simonwoerpel/d3-playbooks-riot-components) to add interactive components (this needs [riotjs](http://riotjs.com))
 
 ```html
 <script src="https://d3js.org/topojson.v2.min.js"></script>

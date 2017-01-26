@@ -1,14 +1,18 @@
 /*
  * make some stuff public for addons to hook into
  */
-import {fromJS as _} from 'immutable'
+
+// polyfills
+import './utils/polyfills/object_assign.js'
+import './utils/polyfills/is_array.js'
+
 import baseTemplate from './playbooks/template.js'
 import maps from './playbooks/maps/available_maps.js'
 import map from './map.js'
 import getPublics from './playbooks/get_publics.js'
 
 // init
-// // FIXME: currently, `d3-playbooks-maps` is only standalone
+// // FIXME: currently, `d3-playbooks-maps` is currently only standalone
 
 d3.playbooks = {}
 d3.playbooks.TEMPLATE = baseTemplate
@@ -28,16 +32,17 @@ d3.playbooks.addMap = (name, {defaults, plays}) => {
 
   overrides[name] = {}
 
-  d3.playbooks[name] = opts => {
+  d3.playbooks[name] = options => {
     // merge opts
-    opts = _(d3.playbooks.CHARTS.baseChart.defaults)  // base defaults
-      .mergeDeep(defaults)                     // map type defaults
-      .mergeDeep(overrides.baseMap)          // global overrides
-      .mergeDeep(overrides[name])              // map type overrides
-      .mergeDeep(opts)                         // opts
-      .toJS()
+    const opts = Object.assign({},
+      d3.playbooks.CHARTS.baseChart.defaults,  // base defaults
+      defaults,                                // chart type defaults
+      overrides.baseMap,                       // global overrides
+      overrides[name],                         // chart type overrides
+      options                                  // concrete opts
+    )
     // merge plays
-    plays = _(d3.playbooks.CHARTS.baseChart.plays).merge(plays)
+    plays = Object.assign({}, d3.playbooks.CHARTS.baseChart.plays, plays)
     const template = d3.playbooks.TEMPLATE
     return map({opts, template, plays})
   }

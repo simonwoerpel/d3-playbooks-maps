@@ -9,12 +9,12 @@ export default ({opts, template, plays}) => {
 
   // set playbook funcs as properties for this map.
   // they could be overwritten via the opts merge below
-  for (let [name, attr] of plays) {
-    M[name] = attr
+  for (let name in plays) {
+    M[name] = plays[name]
   }
 
   // opts and getter / setter methods for these
-  Object.keys(opts).map(name => {
+  for (let name in opts) {
     M[name] = opts[name]
     map[name] = (...val) => {
       if (val.length === 1) {
@@ -22,7 +22,7 @@ export default ({opts, template, plays}) => {
         return map
       } else return M[name]
     }
-  })
+  }
 
   setupPlaybook(template, M)
 
