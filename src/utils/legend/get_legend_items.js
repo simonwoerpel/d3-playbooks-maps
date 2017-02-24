@@ -1,15 +1,17 @@
 // for use with `d3-playbooks-riot-components`
 
 export default ({
-  data,
-  yCol,
+  yDomain,
   getColor
 }, {getLabel}) => {
   if (!getLabel) getLabel = q => Math.round(q)
-  return getColor.quantiles().map(q => {
+  const quantiles = getColor.quantiles()
+  const quantileWidth = quantiles[0]
+  quantiles.push(yDomain[1])
+  return quantiles.map(q => {
     return {
       label: getLabel(q),
-      color: getColor(q)
+      color: getColor(q-quantileWidth/2)
     }
   })
 }
