@@ -6,7 +6,7 @@ export default ({
 }, {getLabel}) => {
   if (!getLabel) getLabel = q => Math.round(q)
   const quantiles = getColor.quantiles()
-  const quantileWidth = quantiles[0]
+  const quantileWidth = quantiles[1] - quantiles[0]
   quantiles.push(yDomain[1])
   return quantiles.map(q => {
     return {
