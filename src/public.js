@@ -12,38 +12,43 @@ import map from './map.js'
 import getPublics from './playbooks/get_publics.js'
 
 // init
-// // FIXME: currently, `d3-playbooks-maps` is currently only standalone
+// FIXME: refactor library bundling in general
 
-d3.playbooks = {}
-d3.playbooks.TEMPLATE = baseTemplate
-maps.baseChart = maps.baseMap
-d3.playbooks.CHARTS = maps
+if (!d3.playbooks) {
+  d3.playbooks = {}
+}
+
 d3.playbooks.PUBLIC_METHODS = getPublics()
+
+const _maps = {
+  TEMPLATE: baseTemplate,
+  MAPS: {baseMap: maps.baseMap},
+}
 
 const overrides = {}
 
 // set app-wide defaults
-d3.playbooks.defaults = opts => {
+_maps.defaults = opts => {
   overrides.baseMap = opts
 }
 
 // add new map type as function
-d3.playbooks.addMap = (name, {defaults, plays}) => {
+_maps.addMap = (name, {defaults, plays}) => {
 
   overrides[name] = {}
 
   d3.playbooks[name] = options => {
     // merge opts
     const opts = Object.assign({},
-      d3.playbooks.CHARTS.baseChart.defaults,  // base defaults
+      d3.playbooks.maps.MAPS.baseMap.defaults, // base defaults
       defaults,                                // chart type defaults
       overrides.baseMap,                       // global overrides
       overrides[name],                         // chart type overrides
       options                                  // concrete opts
     )
     // merge plays
-    plays = Object.assign({}, d3.playbooks.CHARTS.baseChart.plays, plays)
-    const template = d3.playbooks.TEMPLATE
+    plays = Object.assign({}, d3.playbooks.maps.MAPS.baseMap.plays, plays)
+    const template = d3.playbooks.maps.TEMPLATE
     return map({opts, template, plays})
   }
 
@@ -54,7 +59,14 @@ d3.playbooks.addMap = (name, {defaults, plays}) => {
   }
 }
 
+
+d3.playbooks.maps = _maps
+
 // add concrete map types
 for (let name in maps) {
-  d3.playbooks.addMap(name, maps[name])
+  d3.playbooks.maps.addMap(
+    name,
+    maps[name],
+    maps.baseMap,
+    d3.playbooks.maps.TEMPLATE)
 }
