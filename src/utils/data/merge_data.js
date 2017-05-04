@@ -41,8 +41,8 @@ export default ({
 
     const setFeatCsvData = feat => {
       const featId = getId(feat)
-      const data = cData[featId]
-      if (data) Object.keys(data).map(k => feat[k] = data[k])
+      const data = cData[featId] || {__data_missing__: true}
+      Object.keys(data).map(k => feat[k] = data[k])
       return feat
     }
 
